@@ -1,0 +1,42 @@
+{%extends "base.html"%}
+
+{% block content %}
+
+<h1>Card`s details</h1>
+    <h3> ID: {{object.serial}} {{object.card_number}}</h3>
+    <p style="color:blue;"> Status:  <b style="color:red;"> {% if object.status == 2%} Not Activated {% elif object.status == 1%} Activated {% else%} Expirted {% endif %}</b></p>
+
+<p>
+    <form action="{% url 'delete' object.pk %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Delete Card" />
+</form>
+</p>
+<p>
+ <form action="{% url "update" object.pk %}">
+    <input type="submit" value="change Card`s Status" />
+</form>
+</p>
+<div>
+
+   <table style="width:50%">
+      <tr>
+    <th>Product</th>
+    <th>Price</th>
+    <th>Date</th>
+
+    </tr>
+ <p>{% for order in object.orders.all %}
+
+<tr>
+        <th>{{ order.product }}</th>
+        <th>{{ order.price }}</th>
+        <th>{{ order.date}}</th>
+</tr>
+{% endfor %}
+        </table>
+
+
+</div>
+
+{% endblock %}
